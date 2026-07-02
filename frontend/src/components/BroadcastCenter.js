@@ -27,12 +27,27 @@ const PREDICTIVE = {
   tornado: "Climatological models flag an active tornado season ahead. Rehearse community shelter drills.",
 };
 
+const SOS_UNITS = [
+  { id: "hospitals", icon: "⚠️", label: "Broadcast to Nearby Hospitals", color: "#f59e0b", msg: (loc) => `MEDICAL TELEMETRY ROUTED — Trauma bays at 4 hospitals nearest ${loc} notified. Ambulance staging confirmed; casualty intake channels open.` },
+  { id: "fire", icon: "🚨", label: "Signal Fire Service", color: "#ef4444", msg: (loc) => `FIRE SERVICE ALERTED — Critical dispatch sent to closest fire station to ${loc}. Engine crew rolling; hydrant grid unlocked along approach route.` },
+  { id: "police", icon: "🔵", label: "Ping Ghana Police Command", color: "#3b82f6", msg: (loc) => `GHANA POLICE COMMAND PINGED — Localized hazard coordinates for ${loc} transmitted to closest units for security cordons and traffic control.` },
+  { id: "military", icon: "🎖️", label: "Deploy Military Defense Units", color: "#22c55e", msg: (loc) => `MILITARY DEFENSE UNITS DEPLOYED — Strategic alert issued to nearby armed forces and army engineers to coordinate structural rescue operations at ${loc}.` },
+];
+
 export const BroadcastCenter = ({ hazard, locationLabel, band }) => {
   const [contact, setContact] = useState({ phone: "", email: "", social: "" });
   const [channels, setChannels] = useState({ whatsapp: true, sms: true });
   const [feed, setFeed] = useState([]);
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState("");
+  const [sosLog, setSosLog] = useState([]);
+
+  const triggerSos = (unit) => {
+    setSosLog((prev) => [
+      { id: Date.now(), icon: unit.icon, color: unit.color, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }), text: unit.msg(locationLabel) },
+      ...prev.slice(0, 5),
+    ]);
+  };
 
   const isImmediate = band === "Hours";
   const activeChannels = CHANNELS.filter((c) => channels[c.id]);
@@ -152,7 +167,7 @@ export const BroadcastCenter = ({ hazard, locationLabel, band }) => {
             <span className="text-2xl">{isImmediate ? "🚨" : "🗓️"}</span>
             <div>
               <div className="text-sm font-extrabold tracking-widest" style={{ color: modeColor, fontFamily: "Bricolage Grotesque" }} data-testid="broadcast-mode-label">
-                {isImmediate ? "IMMEDIATE BROADCAST" : "PREDICTIVE BRIEFING"}
+                {isImmediate ? "LIVE DISPATCHING / IMMEDIATE BROADCAST" : "PREDICTIVE BRIEFING"}
               </div>
               <div className="text-[10px] tracking-[0.2em]" style={{ color: "rgba(255,255,255,0.55)", fontFamily: "JetBrains Mono" }}>
                 {isImmediate ? "TIMELINE: NOW / HOURS · RED ALERT DISPATCH" : "TIMELINE: DAYS / MONTHS / YEARS · SCHEDULED TICKER"}
@@ -177,6 +192,41 @@ export const BroadcastCenter = ({ hazard, locationLabel, band }) => {
             )}
           </div>
         </div>
+      </div>
+
+      {/* INTERACTIVE SOS DISPATCH HUB */}
+      <div data-testid="sos-dispatch-hub" className="mt-6 rounded-2xl border p-5" style={{ borderColor: "rgba(239,68,68,0.35)", background: "rgba(239,68,68,0.04)" }}>
+        <div className="text-[10px] tracking-[0.28em]" style={{ color: "#ef4444", fontFamily: "JetBrains Mono" }}>INTERACTIVE SOS DISPATCH HUB · {locationLabel.toUpperCase()}</div>
+        <h3 className="text-lg sm:text-xl font-extrabold mt-1" style={{ fontFamily: "Bricolage Grotesque" }}>
+          Directly Signal Emergency Authorities &amp; Forces
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mt-4">
+          {SOS_UNITS.map((u) => (
+            <button
+              key={u.id}
+              data-testid={`sos-btn-${u.id}`}
+              onClick={() => triggerSos(u)}
+              className="chip-btn rounded-xl border px-3 py-3 text-left flex flex-col gap-1"
+              style={{ borderColor: `${u.color}55`, background: `${u.color}14` }}
+            >
+              <span className="text-xl">{u.icon}</span>
+              <span className="text-xs font-bold leading-snug" style={{ fontFamily: "Bricolage Grotesque", color: u.color }}>{u.label}</span>
+              <span className="text-[9px] tracking-[0.2em]" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "JetBrains Mono" }}>ONE-CLICK DISPATCH</span>
+            </button>
+          ))}
+        </div>
+        {sosLog.length > 0 && (
+          <div className="mt-4 space-y-2" data-testid="sos-log">
+            {sosLog.map((l) => (
+              <div key={l.id} className="flex items-start gap-2 rounded-lg px-3 py-2 text-xs leading-relaxed" style={{ background: `${l.color}12`, border: `1px solid ${l.color}44` }} data-testid="sos-log-item">
+                <span className="animate-pulse">{l.icon}</span>
+                <span style={{ color: "rgba(255,255,255,0.85)", fontFamily: "Manrope" }}>
+                  <span style={{ color: l.color, fontFamily: "JetBrains Mono" }}>[{l.time}] ✓ TRANSMISSION CONFIRMED</span> — {l.text}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

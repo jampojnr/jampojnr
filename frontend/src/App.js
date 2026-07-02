@@ -8,6 +8,8 @@ import { AccessibilityEngine } from "@/components/AccessibilityEngine";
 import { BroadcastCenter } from "@/components/BroadcastCenter";
 import { AIHub } from "@/components/AIHub";
 import { ShareCenter } from "@/components/ShareCenter";
+import { MonetizationCore } from "@/components/MonetizationCore";
+import { SupportModule } from "@/components/SupportModule";
 
 /* Jampo's Crisis Shield AI — Global & National Disaster Intelligence Platform */
 
@@ -624,6 +626,9 @@ function App() {
         {/* CAMPAIGN & SHARE PROMOTION CENTER */}
         <ShareCenter hazard={hazard} locationLabel={locationLabel} riskLabel={projectedLabel} />
 
+        {/* MONETIZATION & UTILITY DATA AD CORES */}
+        <MonetizationCore hazard={hazard} />
+
         {/* DEVELOPER SPOTLIGHT */}
         <section data-testid="developer-spotlight" className="relative rounded-3xl border p-6 sm:p-10 overflow-hidden" style={{ borderColor: `${hazard.accent}33`, background: "linear-gradient(140deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))" }}>
           <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full blur-3xl opacity-30" style={{ background: hazard.accent }} />
@@ -697,6 +702,9 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* SUPPORT & CONTRIBUTION MODULE + OFFICIAL SOCIAL CONNECTIONS */}
+        <SupportModule />
 
         <footer className="pt-2 pb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
           <span style={{ fontFamily: "JetBrains Mono" }}>© 2026 JAMPO&apos;S CRISIS SHIELD AI · GLOBAL &amp; NATIONAL DISASTER INTELLIGENCE</span>

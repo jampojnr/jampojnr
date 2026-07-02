@@ -26,7 +26,7 @@ export const Marquee = ({ items, accent }) => {
   );
 };
 
-const MapCard = ({ hazard, timelineValue, coordsLabel, sectorLabel }) => {
+export const MapCard = ({ hazard, timelineValue, coordsLabel, sectorLabel }) => {
   const intensity = 0.45 + (timelineValue / 100) * 0.55;
   return (
     <div
