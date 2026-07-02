@@ -43,6 +43,7 @@ No backend/DB used — all state is React client-side.
    - Campaign & Share Promotion Center: TikTok/Facebook/WhatsApp clipboard snippets
    - Monetization & Utility Data Ad Cores: Premium Telemetry SMS Layer, ISP Data Revenue Matrix, ad slot placeholders
    - Support & Contribution module: MTN MoMo +233 598 857 686, Paystack link, 8 verified social channels
+   - **Comparative Severity Matrix (Module 04B)**: Accra locked as 🔒 PRIMARY CATASTROPHIC RED ALERT benchmark; clickable cells for Accra/Obuasi/Kumasi/Sunyani/USA (California)/Europe (Scotland) that re-sync the entire system (hazard, continent, region, map, risk badge, checklists, broadcast center) in one tap. Accra region chip carries a 🔒 PRIMARY badge. Continent reset logic moved from useEffect to explicit tab handler to support programmatic focus jumps.
 
 ## Backlog
 - P1: Persist checklist items + last-viewed region/hazard to localStorage

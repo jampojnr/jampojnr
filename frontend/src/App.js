@@ -10,6 +10,7 @@ import { AIHub } from "@/components/AIHub";
 import { ShareCenter } from "@/components/ShareCenter";
 import { MonetizationCore } from "@/components/MonetizationCore";
 import { SupportModule } from "@/components/SupportModule";
+import { SeverityMatrix } from "@/components/SeverityMatrix";
 
 /* Jampo's Crisis Shield AI — Global & National Disaster Intelligence Platform */
 
@@ -77,12 +78,22 @@ function App() {
   }, [isGhanaNational, ashantiCity, ghanaRegion, hazardId, hazard]);
 
   // Whenever continent changes, reset venue to first valid one.
-  useEffect(() => {
-    const first = Object.keys(continent.venues)[0];
-    setVenueId(first);
+  const selectContinent = (id) => {
+    setContinentId(id);
+    setVenueId(Object.keys(CONTINENTS[id].venues)[0]);
     setUsStateId("");
     setUkKingdomId("");
-  }, [continentId, continent.venues]);
+  };
+
+  const jumpToBenchmark = (b) => {
+    setHazardId(b.hazard);
+    setContinentId(b.continent);
+    setVenueId(b.venue || Object.keys(CONTINENTS[b.continent].venues)[0]);
+    setUsStateId(b.usState || "");
+    setUkKingdomId(b.ukKingdom || "");
+    if (b.region) setGhanaRegionId(b.region);
+    if (b.city) setAshantiCityId(b.city);
+  };
 
   useEffect(() => { injectFonts(); }, []);
 
@@ -240,7 +251,7 @@ function App() {
                   <button
                     key={c.id}
                     data-testid={`continent-btn-${c.id}`}
-                    onClick={() => setContinentId(c.id)}
+                    onClick={() => selectContinent(c.id)}
                     className="chip-btn shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5"
                     style={{
                       background: active ? hazard.accent : "transparent",
@@ -386,9 +397,13 @@ function App() {
                       background: active ? hazard.accentSoft : "rgba(255,255,255,0.02)",
                     }}
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-1">
                       <span className="text-sm font-semibold" style={{ color: active ? hazard.accent : "white", fontFamily: "Bricolage Grotesque" }}>{r.name}</span>
-                      {hasSeverity && <span className="w-2 h-2 rounded-full" style={{ background: hazard.accent, boxShadow: `0 0 8px ${hazard.accent}` }} />}
+                      {r.id === "greater-accra" ? (
+                        <span data-testid="accra-primary-lock" className="text-[8px] tracking-[0.14em] px-1.5 py-0.5 rounded shrink-0" style={{ background: "rgba(220,38,38,0.2)", color: "#f87171", fontFamily: "JetBrains Mono" }}>🔒 PRIMARY</span>
+                      ) : (
+                        hasSeverity && <span className="w-2 h-2 rounded-full" style={{ background: hazard.accent, boxShadow: `0 0 8px ${hazard.accent}` }} />
+                      )}
                     </div>
                     <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono" }}>
                       {r.capital}
@@ -613,6 +628,27 @@ function App() {
             })}
           </div>
         </section>
+
+        {/* COMPARATIVE SEVERITY MATRIX */}
+        <SeverityMatrix
+          hazard={hazard}
+          activeId={
+            isGhanaNational
+              ? ghanaRegion.id === "greater-accra"
+                ? "accra"
+                : ghanaRegion.id === "bono"
+                ? "sunyani"
+                : ghanaRegion.id === "ashanti" && ashantiCity
+                ? ashantiCity.id
+                : null
+              : continentId === "na"
+              ? "usa"
+              : continentId === "eu"
+              ? "europe"
+              : null
+          }
+          onJump={jumpToBenchmark}
+        />
 
         {/* UNIVERSAL ACCESSIBILITY ENGINE */}
         <AccessibilityEngine hazard={hazard} locationLabel={locationLabel} />
