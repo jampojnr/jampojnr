@@ -8,16 +8,17 @@ IT Undergraduate Student at the **University of Energy and Natural Resources (UE
 
 * 🦾 **Robotics & Hardware Systems:** Designing digital circuits, microcontrollers, and automated controllers (Arduino, Proteus 9).
 * 🧠 **Artificial Intelligence & RAG:** Building intelligent conversational models, document parsing engines, and AI-driven APIs.
-* 💻 **Software & Systems Engineering:** Full-stack development with a emphasis on high-performance backends and real-time logic.
+* 💻 **Software & Systems Engineering:** Full-stack and mobile development with high-performance backends and real-time logic.
+* 🎓 **Mentorship & Community:** Guiding and mentoring others in software programming, artificial intelligence, and robotics technology.
 
 ---
 
 ### 🛠️ Languages & Technical Stack
 
 * **Languages:** C++, Python, Dart, JavaScript
+* **IDEs & Tools:** VS Code, Dev-C++, Android Studio, Arduino IDE, Proteus 9
 * **AI & Backend Frameworks:** FastAPI, Django, RAG Frameworks
-* **Robotics & Hardware Tools:** Arduino IDE, Proteus 9, Digital Circuit Simulation
-* **Databases & Tools:** PostgreSQL, VS Code, PyCharm, Code::Blocks
+* **Databases & Systems:** PostgreSQL
 
 ---
 
@@ -25,7 +26,8 @@ IT Undergraduate Student at the **University of Energy and Natural Resources (UE
 
 * 🤖 **AI Educational Systems:** Engineering RAG-based AI chatbots with FastAPI backends.
 * 🚥 **Automated Hardware Controllers:** Designing digital circuit schematics and behavioral loops for hardware automation.
-* 📱 **Cross-Platform Software:** Developing custom Flutter/Dart applications integrated with API triggers.
+* 📱 **Cross-Platform Software:** Developing custom Flutter/Dart applications using Android Studio and VS Code.
+* 💡 **Tech Mentorship:** Hosting guidance and instructional sessions in technology, AI, and robotics.
 
 ---
 
